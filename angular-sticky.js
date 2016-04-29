@@ -1,7 +1,7 @@
 /**
  * @author GOHIN Maelig
  * @email mgohin@arca-compiuting.fr
- * @version 0.0.0
+ * @version 1.0.0
  */
 (function (angular, $) {
     'use strict';

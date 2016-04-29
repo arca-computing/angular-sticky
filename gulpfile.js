@@ -39,7 +39,7 @@ gulp.task('tag', function(){
 });
 
 gulp.task('commit', function(){
-    return gulp.src('./*')
+    return gulp.src('.')
         .pipe(git.commit(argv.message, {args: '-a'}));
 });
 
