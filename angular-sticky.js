@@ -26,29 +26,29 @@
                     }
                     clone.addClass($scope.css);
 
-                    clone.hide();
+                    clone.css('display', 'none');
                     elem.parent().append(clone);
 
                     var scrolling = $scope.scrollingElem || document;
                     angular.element(scrolling).on('scroll', function () {
                         var offsetTop = elem[0].getBoundingClientRect().top;
                         var offsetKeepVisible = 0;
-                        angular.element('.sticky-wrapper.sticky-keep-visible').each(function () {
-                            var jThis = angular.element(this);
-                            if (!jThis.is(clone) && jThis[0].offsetWidth > 0 && jThis[0].offsetHeight > 0) {
-                                offsetKeepVisible += jThis.height();
+                        angular.forEach(angular.element(document.querySelector('.sticky-wrapper.sticky-keep-visible')), function (elem) {
+                            var jThis = angular.element(elem);
+                            if (jThis !== clone && jThis[0].offsetWidth > 0 && jThis[0].offsetHeight > 0) {
+                                offsetKeepVisible += jThis[0].offsetHeight;
                             }
                         });
 
                         if (offsetTop <= offsetKeepVisible) {
                             if (!visible) {
-                                angular.element('.sticky-wrapper').not('.sticky-keep-visible').hide();
-                                clone.css('top', offsetKeepVisible);
-                                clone.show();
+                                angular.element(document.querySelector('.sticky-wrapper:not(.sticky-keep-visible')).css('display', 'none');
+                                clone.css('top', offsetKeepVisible + 'px');
+                                clone.css('display', 'block');
                                 visible = true;
                             }
                         } else {
-                            clone.hide();
+                            clone.css('display', 'none');
                             visible = false;
                         }
                     });
