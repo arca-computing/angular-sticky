@@ -1,7 +1,7 @@
 /**
  * @author GOHIN Maelig
  * @email mgohin@arca-compiuting.fr
- * @version 1.0.x
+ * @version 1.0.0
  * @license: MIT
  */
 (function (angular, $) {
@@ -12,7 +12,7 @@
             restrict: 'A',
             scope: {
                 keepVisible: '=?',
-                css: '?='
+                css: '=?'
             },
             link: function ($scope, element) {
                 $timeout(function () {
