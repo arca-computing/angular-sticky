@@ -6,6 +6,7 @@ var replace = require('gulp-replace');
 var argv = require('yargs').argv;
 var git = require('gulp-git');
 var runSequence = require('run-sequence');
+var shell = require('gulp-shell')
 
 gulp.task('lint-app', function () {
     return gulp.src('./angular-sticky.js')
@@ -61,11 +62,13 @@ gulp.task('push', function(cb){
     cb();
 });
 
+gulp.task('publish', shell.task(['npm publish']));
+
 gulp.task('create-and-push-release', ['uglify', 'version'], function(cb){
     if(!argv.newVersion){
         throw new Error('Need a version to tag, use --new-version=YOUR_VERSION');
     }
-    runSequence('add', 'commit', 'tag', 'push', cb);
+    runSequence('add', 'commit', 'tag', 'push', 'publish', cb);
 });
 
 /******* COMMAND LINE TASKS ******/
