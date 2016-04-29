@@ -21,14 +21,16 @@ Add some css, it's not applied in directive so you are free to do whatever your 
         width: 100%;
     }
 
-    <div ng-sticky>
+    <div ng-sticky scrolling-elem="'#myScrollingView'" super-sticky="true" css="'custom1 custom2'">
         ...
     </div>
 
 note : your element will be wrapped into a div with `sticky-wrapper` class.
     
 ### Options
-`keep-visible` : will keep the element when scrolling, so next will stack under it.
+`scrolling-elem` (css selector, default is document) : scrolling element to listen for scroll. For example with a ui-view I needed to set it.
+
+`super-sticky` (true/false, false default) : will keep the element when scrolling, so next will stack under it.
 
 `css` : classes to apply to the wrapper.
 

@@ -11,16 +11,17 @@
         return {
             restrict: 'A',
             scope: {
-                keepVisible: '=?',
+                scrollingElem: '=?',
+                superSticky: '=?',
                 css: '=?'
             },
             link: function ($scope, element) {
                 $timeout(function () {
-                    var parentSelector = '#ui-view',
-                        elem = $(element),
-                        clone = elem.clone().wrap('<div class="sticky-wrapper"></div>').parent();
+                    var elem = $(element),
+                        clone = elem.clone().wrap('<div class="sticky-wrapper"></div>').parent(),
+                        visible = false;
 
-                    if ($scope.keepVisible) {
+                    if ($scope.superSticky) {
                         clone.addClass('sticky-keep-visible');
                     }
                     clone.addClass($scope.css);
@@ -28,7 +29,8 @@
                     clone.hide();
                     elem.parent().append(clone);
 
-                    $(parentSelector).on('scroll', function () {
+                    var scrolling = $scope.scrollingElem || document;
+                    $(scrolling).on('scroll', function () {
                         var offsetTop = elem[0].getBoundingClientRect().top;
                         var offsetKeepVisible = 0;
                         $('.sticky-wrapper.sticky-keep-visible:visible').each(function () {
@@ -38,13 +40,15 @@
                         });
 
                         if (offsetTop <= offsetKeepVisible) {
-                            if (!clone.is(':visible')) {
+                            if (!visible) {
                                 $('.sticky-wrapper').not('.sticky-keep-visible').hide();
                                 clone.css('top', offsetKeepVisible);
                                 clone.show();
+                                visible = true;
                             }
                         } else {
                             clone.hide();
+                            visible = false;
                         }
                     });
                 });
@@ -57,4 +61,3 @@
         .directive('ngSticky', ngSticky);
 
 })(window.angular, window.jQuery);
-module.exports = 'ngSticky';
