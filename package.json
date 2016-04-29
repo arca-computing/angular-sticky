@@ -20,12 +20,11 @@
     "url": "https://github.com/arca-computing/angular-sticky/issues"
   },
   "dependencies": {
-    "angular": "^1.5.5",
-    "gulp-git": "^1.7.1",
-    "jquery": "^2.2.3"
+    "angular": "^1.5.5"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-git": "^1.7.1",
     "gulp-jshint": "^2.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
