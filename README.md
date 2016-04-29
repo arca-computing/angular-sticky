@@ -1,3 +1,5 @@
+current version : 1.0.0
+
 # What is that ?
 A simple angular directive to keep elements sticky on top of the screen when you scroll. You can even stack them, that's magic !
 

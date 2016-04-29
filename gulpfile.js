@@ -29,29 +29,37 @@ gulp.task('version', function(){
         gulp.src(['angular-sticky.js'])
             .pipe(replace(/(@version )(.*)/, '$1' + argv.newVersion))
             .pipe(gulp.dest('.'));
+        gulp.src(['README.md'])
+            .pipe(replace(/(current version : )(.*)/, '$1' + argv.newVersion))
+            .pipe(gulp.dest('.'));
     }
 });
 
+/******* GIT ******/
 gulp.task('tag', function(){
-    git.tag(argv.newVersion, argv.message, function (err) {
+    git.tag(argv.newVersion, 'release: ' + argv.newVersion, function (err) {
         if (err) throw err;
     });
 });
 
 gulp.task('commit', function(){
     return gulp.src('.')
-        .pipe(git.commit(argv.message, {args: '-a'}));
+        .pipe(git.commit('release: ' + argv.newVersion, {args: '-a'}));
 });
 
-gulp.task('create-release', function(){
+gulp.task('push', function(){
+    git.push('origin', 'master', {args: "--follow-tags"}, function (err) {
+        if (err) throw err;
+    });
+});
+
+gulp.task('create-and-push-release', function(){
     if(!argv.newVersion){
         throw new Error('Need a version to tag, use --new-version=YOUR_VERSION');
     }
-    if(!argv.message){
-        throw new Error('Need a message to tag, use --message=YOUR_MESSAGE');
-    }
-    runSequence('version', 'commit', 'tag');
+    runSequence('version', 'commit', 'tag', 'push');
 });
 
+/******* COMMAND LINE TASKS ******/
 gulp.task('default', ['uglify']);
-gulp.task('release', ['create-release', 'uglify']);
+gulp.task('release', ['create-and-push-release', 'uglify']);
