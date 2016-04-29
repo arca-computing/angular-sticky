@@ -21,7 +21,7 @@ gulp.task('uglify', ['lint-app'], function () {
         .pipe(gulp.dest('.'));
 });
 
-gulp.task('version', function(){
+gulp.task('version', function(cb){
     if(argv.newVersion) {
         gulp.src(['package.json'])
             .pipe(replace(/("version": ")(.*)(")/, '$1' + argv.newVersion + "$3"))
@@ -33,33 +33,41 @@ gulp.task('version', function(){
             .pipe(replace(/(current version : )(.*)/, '$1' + argv.newVersion))
             .pipe(gulp.dest('.'));
     }
+    cb();
 });
 
 /******* GIT ******/
-gulp.task('tag', function(){
+gulp.task('tag', function(cb){
     git.tag(argv.newVersion, 'release: ' + argv.newVersion, function (err) {
         if (err) throw err;
     });
+    cb();
+});
+
+gulp.task('add', function(){
+    return gulp.src('.')
+        .pipe(git.add({args: '-A'}));
 });
 
 gulp.task('commit', function(){
     return gulp.src('.')
-        .pipe(git.commit('release: ' + argv.newVersion, {args: '-a'}));
+        .pipe(git.commit('release: ' + argv.newVersion));
 });
 
-gulp.task('push', function(){
+gulp.task('push', function(cb){
     git.push('origin', 'master', {args: "--follow-tags"}, function (err) {
         if (err) throw err;
     });
+    cb();
 });
 
-gulp.task('create-and-push-release', function(){
+gulp.task('create-and-push-release', ['uglify', 'version'], function(cb){
     if(!argv.newVersion){
         throw new Error('Need a version to tag, use --new-version=YOUR_VERSION');
     }
-    runSequence('version', 'commit', 'tag', 'push');
+    runSequence('add', 'commit', 'tag', 'push', cb);
 });
 
 /******* COMMAND LINE TASKS ******/
 gulp.task('default', ['uglify']);
-gulp.task('release', ['create-and-push-release', 'uglify']);
+gulp.task('release', ['create-and-push-release']);
