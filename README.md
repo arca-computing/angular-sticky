@@ -1,4 +1,4 @@
-current version : 1.0.6
+current version : 1.0.7
 
 # What is that ?
 A simple angular directive to keep elements sticky on top of the screen when you scroll. You can even stack them, that's magic !
@@ -29,6 +29,8 @@ note : your element will be wrapped into a div with `sticky-wrapper` class.
     
 ### Options
 `scrolling-elem` (css selector, default is document) : scrolling element to listen for scroll. For example with a ui-view I needed to set it.
+
+`parent-scope` : if you need to compile child elements that will be cloned (elements with ng-show, ng-repeat, ng-click, all kind of angular stuff attached to it). 
 
 `super-sticky` (true/false, false default) : will keep the element when scrolling, so next will stack under it.
 
