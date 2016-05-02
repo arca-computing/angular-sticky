@@ -18,6 +18,7 @@
             link: function ($scope, element) {
                 $timeout(function () {
                     var visible = false,
+                        nativeDisplay = element.css('display'),
                         nativePosition = element.css('position'),
                         nativeTop = element.css('top'),
                         nativeLeft = element.css('left'),
@@ -57,6 +58,7 @@
                             }
                         } else if (replacer) {
                             replacer.remove();
+                            element.css('display', nativeDisplay);
                             element.css('position', nativePosition);
                             element.css('top', nativeTop);
                             element.css('left', nativeLeft);
