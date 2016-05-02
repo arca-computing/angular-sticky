@@ -36,9 +36,8 @@
                         var offsetTop = elementToCheck[0].getBoundingClientRect().top;
                         var offsetKeepVisible = 0;
                         angular.forEach(angular.element(document.querySelectorAll('.sticky.sticky-is-visible.sticky-keep-visible')), function (e) {
-                            var jThis = angular.element(e);
-                            if (jThis !== element && jThis[0].offsetWidth > 0 && jThis[0].offsetHeight > 0) {
-                                offsetKeepVisible += jThis[0].offsetHeight;
+                            if (e !== element[0] && e.offsetWidth > 0 && e.offsetHeight > 0) {
+                                offsetKeepVisible += e.offsetHeight;
                             }
                         });
 
