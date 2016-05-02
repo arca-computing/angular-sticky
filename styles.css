@@ -2,16 +2,16 @@ body{
     font-size: 1.3em;
 }
 
-.sticky-wrapper{
-    position: fixed;
-    top: 0;
-    left: 0;
+.to-stick{
     width: 100%;
-    margin: 0 8px;
 }
 
-.to-stick{
+.to-stick > div{
     background-color: brown;
     color: #fff;
     padding: 10px;
+}
+
+.to-stick.sticky-is-visible > div{
+    margin: 0 8px;
 }
