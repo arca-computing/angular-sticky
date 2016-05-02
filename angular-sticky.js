@@ -1,7 +1,7 @@
 /**
  * @author GOHIN Maelig
  * @email mgohin@arca-compiuting.fr
- * @version 1.0.7
+ * @version 1.0.8
  * @license: MIT
  */
 (function (angular) {
@@ -11,51 +11,56 @@
         return {
             restrict: 'A',
             scope: {
-                parentScope: '=?',
                 scrollingElem: '=?',
                 superSticky: '=?',
                 css: '=?'
             },
             link: function ($scope, element) {
                 $timeout(function () {
-                    var clone = element.clone();
+                    var visible = false,
+                        nativePosition = element.css('position'),
+                        nativeTop = element.css('top'),
+                        nativeLeft = element.css('left'),
+                        scrolling = $scope.scrollingElem || document,
+                        replacer;
 
-                    if($scope.parentScope) {
-                        $compile(clone.contents())($scope.parentScope);
-                    }
-
-                    clone = clone.wrap('<div class="sticky-wrapper"></div>').parent();
+                    element.addClass('sticky');
 
                     if ($scope.superSticky) {
-                        clone.addClass('sticky-keep-visible');
+                        element.addClass('sticky-keep-visible');
                     }
-                    clone.addClass($scope.css);
 
-                    clone.css('display', 'none');
-
-                    element.parent().append(clone);
-
-                    var visible = false,
-                        scrolling = $scope.scrollingElem || document;
                     angular.element(scrolling).on('scroll', function () {
-                        var offsetTop = element[0].getBoundingClientRect().top;
+                        var elementToCheck = visible ? replacer : element;
+                        var offsetTop = elementToCheck[0].getBoundingClientRect().top;
                         var offsetKeepVisible = 0;
-                        angular.forEach(angular.element(document.querySelectorAll('.sticky-wrapper.sticky-keep-visible')), function (e) {
+                        angular.forEach(angular.element(document.querySelectorAll('.sticky.sticky-is-visible.sticky-keep-visible')), function (e) {
                             var jThis = angular.element(e);
-                            if (jThis !== clone && jThis[0].offsetWidth > 0 && jThis[0].offsetHeight > 0) {
+                            if (jThis !== element && jThis[0].offsetWidth > 0 && jThis[0].offsetHeight > 0) {
                                 offsetKeepVisible += jThis[0].offsetHeight;
                             }
                         });
 
                         if (offsetTop <= offsetKeepVisible) {
                             if (!visible) {
-                                angular.element(document.querySelectorAll('.sticky-wrapper:not(.sticky-keep-visible')).css('display', 'none');
-                                clone.css('top', offsetKeepVisible + 'px');
-                                clone.css('display', 'block');
+                                replacer = angular.element('<div></div>');
+                                replacer.css('width', element[0].offsetWidth + 'px');
+                                replacer.css('height', element[0].offsetHeight + 'px');
+                                element.after(replacer);
+
+                                angular.element(document.querySelectorAll('.sticky.sticky-is-visible:not(.sticky-keep-visible')).css('display', 'none');
+                                element.css('position', 'fixed');
+                                element.css('top', offsetKeepVisible + 'px');
+                                element.css('left',  '0px');
+                                element.addClass('sticky-is-visible');
                                 visible = true;
                             }
-                        } else {
-                            clone.css('display', 'none');
+                        } else if (replacer) {
+                            replacer.remove();
+                            element.css('position', nativePosition);
+                            element.css('top', nativeTop);
+                            element.css('left', nativeLeft);
+                            element.removeClass('sticky-is-visible');
                             visible = false;
                         }
                     });
