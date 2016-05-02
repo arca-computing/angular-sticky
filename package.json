@@ -1,7 +1,7 @@
 {
   "name": "angular-sticky-top",
   "description": "Make elements sticky to top of your screen and stack them if you want",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "license": "MIT",
   "author": {
     "email": "mgohin@arca-computing.fr",
