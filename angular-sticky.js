@@ -48,7 +48,7 @@
                                 replacer.css('height', element[0].offsetHeight + 'px');
                                 element.after(replacer);
 
-                                angular.element(document.querySelectorAll('.sticky.sticky-is-visible:not(.sticky-keep-visible')).css('display', 'none');
+                                angular.element(document.querySelectorAll('.sticky.sticky-is-visible:not(.sticky-keep-visible)')).css('display', 'none');
                                 element.css('position', 'fixed');
                                 element.css('top', offsetKeepVisible + 'px');
                                 element.css('left',  '0px');
@@ -63,6 +63,10 @@
                             element.css('left', nativeLeft);
                             element.removeClass('sticky-is-visible');
                             visible = false;
+                            var others = angular.element(document.querySelectorAll('.sticky.sticky-is-visible'));
+                            if(others.length > 0){
+                                angular.element(others[others.length - 1]).css('display', nativeDisplay);
+                            }
                         }
                     });
                 });
