@@ -22,6 +22,7 @@
                         nativePosition = element.css('position'),
                         nativeTop = element.css('top'),
                         nativeLeft = element.css('left'),
+                        nativeWidth = element.css('width'),
                         scrolling = $scope.scrollingElem || document,
                         replacer;
 
@@ -49,6 +50,7 @@
                                 element.after(replacer);
 
                                 angular.element(document.querySelectorAll('.sticky.sticky-is-visible:not(.sticky-keep-visible)')).css('display', 'none');
+                                element.css('width', element[0].offsetWidth + 'px');
                                 element.css('position', 'fixed');
                                 element.css('top', offsetKeepVisible + 'px');
                                 element.css('left',  '0px');
@@ -57,6 +59,7 @@
                             }
                         } else if (replacer) {
                             replacer.remove();
+                            element.css('width', nativeWidth);
                             element.css('display', nativeDisplay);
                             element.css('position', nativePosition);
                             element.css('top', nativeTop);
