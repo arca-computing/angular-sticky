@@ -1,5 +1,6 @@
 body{
     font-size: 1.3em;
+    margin: 0;
 }
 
 .to-stick{
@@ -10,8 +11,4 @@ body{
     background-color: brown;
     color: #fff;
     padding: 10px;
-}
-
-.to-stick.sticky-is-visible > div{
-    margin: 0 8px;
 }
