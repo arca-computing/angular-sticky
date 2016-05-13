@@ -1,7 +1,7 @@
 /**
  * @author GOHIN Maelig
  * @email mgohin@arca-compiuting.fr
- * @version 1.0.10
+ * @version 1.0.11
  * @license: MIT
  */
 (function (angular) {
