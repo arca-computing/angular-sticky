@@ -1,7 +1,7 @@
 /**
  * @author GOHIN Maelig
  * @email mgohin@arca-compiuting.fr
- * @version 1.1.0
+ * @version 1.1.1
  * @license: MIT
  */
 (function (angular) {
@@ -38,7 +38,9 @@
                             if(visible){
                                 element.css('width', $scope.listenResize.offsetWidth + 'px');
                                 replacer.css('width', $scope.listenResize.offsetWidth + 'px');
-                                nativeWidth = $scope.listenResize.offsetWidth + 'px';
+                                if(nativeWidth) {
+                                    nativeWidth = $scope.listenResize.offsetWidth + 'px';
+                                }
                             }
                         });
                     }
