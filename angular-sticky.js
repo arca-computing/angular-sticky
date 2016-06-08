@@ -1,19 +1,20 @@
 /**
  * @author GOHIN Maelig
  * @email mgohin@arca-compiuting.fr
- * @version 1.0.11
+ * @version 1.1.0
  * @license: MIT
  */
 (function (angular) {
     'use strict';
 
-    var ngSticky = ['$compile', '$timeout', function ($compile, $timeout) {
+    var ngSticky = ['$compile', '$timeout', '$window', function ($compile, $timeout, $window) {
         return {
             restrict: 'A',
             scope: {
                 scrollingElem: '=?',
                 superSticky: '=?',
-                css: '=?'
+                css: '=?',
+                listenResize: '=?'
             },
             link: function ($scope, element) {
                 $timeout(function () {
@@ -30,6 +31,16 @@
 
                     if ($scope.superSticky) {
                         element.addClass('sticky-keep-visible');
+                    }
+
+                    if($scope.listenResize){
+                        angular.element($window).on('resize', function(){
+                            if(visible){
+                                element.css('width', $scope.listenResize.offsetWidth + 'px');
+                                replacer.css('width', $scope.listenResize.offsetWidth + 'px');
+                                nativeWidth = $scope.listenResize.offsetWidth + 'px';
+                            }
+                        });
                     }
 
                     angular.element(scrolling).on('scroll', function () {
